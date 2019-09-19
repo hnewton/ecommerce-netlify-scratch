@@ -16,7 +16,7 @@
         class="stripe-card"
         id="card"
         :class="{ complete }"
-        stripe="pk_test_5ThYi0UvX3xwoNdgxxxTxxrG"
+        stripe="${ process.env.STRIPE_SECRET_KEY }"
         :options="stripeOptions"
         @change="complete = $event.complete"
       />
@@ -47,14 +47,14 @@
 </template>
  
 <script>
-import { Card, createToken } from "vue-stripe-elements-plus";
+import { Card, createToken } from 'vue-stripe-elements-plus'
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
   components: { Card },
   computed: {
-    ...mapState(["cartUIStatus"])
+    ...mapState(['cartUIStatus'])
   },
   data() {
     return {
@@ -63,22 +63,22 @@ export default {
         // you can configure that cc element. I liked the default, but you can
         // see https://stripe.com/docs/stripe.js#element-options for details
       },
-      stripeEmail: ""
-    };
+      stripeEmail: ''
+    }
   },
   methods: {
     pay() {
       createToken().then(data => {
-        const stripeData = { data, stripeEmail: this.stripeEmail };
-        this.$store.dispatch("postStripeFunction", stripeData);
-      });
+        const stripeData = { data, stripeEmail: this.stripeEmail }
+        this.$store.dispatch('postStripeFunction', stripeData)
+      })
     },
     clearCart() {
-      this.complete = false;
-      this.$store.commit("clearCartCount");
+      this.complete = false
+      this.$store.commit('clearCartCount')
     }
   }
-};
+}
 </script> 
  
 <style lang="scss" scoped>
